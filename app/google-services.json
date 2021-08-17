@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1060632398663",
+    "project_id": "captain-motorcycles",
+    "storage_bucket": "captain-motorcycles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060632398663:android:a95cc87f6eeb080eadda62",
+        "android_client_info": {
+          "package_name": "com.example.tigersmotorcycles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060632398663-9m1srourspjvvee7j571167shk0ni3ab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tigersmotorcycles",
+            "certificate_hash": "0932923589b383081c38560774b0c3118e380d9e"
+          }
+        },
+        {
+          "client_id": "1060632398663-bkn38ofrjirjde8660vpnjlmt7agighf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuo9ABDKjhs0Tj7Wjpz1sx6D2HwV0yuCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060632398663-bkn38ofrjirjde8660vpnjlmt7agighf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

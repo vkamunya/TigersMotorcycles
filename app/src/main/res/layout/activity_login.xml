@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.activities.LoginActivity"
+    >
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bike2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".27"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/vie_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".78"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+        <com.example.tigersmotorcycles.utils.MSPTextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/tv_title"
+            android:textSize="@dimen/title_textSize"
+            android:textColor="@color/colorPrimaryText"
+            android:text="@string/title_login"
+            android:layout_marginTop="35dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/til_email"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            android:layout_marginTop="35dp"
+            android:textColorHint="@color/colorPrimaryText"
+            android:hint="@string/et_hint_email_id"
+            app:endIconMode="password_toggle"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.example.tigersmotorcycles.utils.MSPEditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/et_email"
+            android:textSize="@dimen/et_textSize"
+            android:textColor="@color/colorPrimaryText"
+            android:background="@drawable/backwithborder"
+            tools:text="abc@gmail.com"
+            android:padding="@dimen/et_padding" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/til_password"
+            app:layout_constraintTop_toBottomOf="@id/til_email"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/colorSecondaryText"
+            android:hint="@string/et_hint_password"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.example.tigersmotorcycles.utils.MSPEditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/et_password"
+            android:textSize="@dimen/et_textSize"
+            android:background="@drawable/backwithborder"
+            android:textColor="@color/colorPrimaryText"
+            tools:text="123456" android:padding="@dimen/et_padding"
+            android:inputType="textPassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <com.example.tigersmotorcycles.utils.MSPTextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/tv_forgot_password"
+            app:layout_constraintTop_toBottomOf="@id/til_password"
+            android:textSize="@dimen/forgot_password_textSize"
+            android:textColor="@color/colorSecondaryText"
+            android:text="@string/lbl_forgot_password"
+            android:layout_marginEnd="16dp"
+            android:padding="@dimen/clickable_text_view_padding"
+            android:foreground="?attr/selectableItemBackground"/>
+
+        <com.example.tigersmotorcycles.utils.MSPButton
+            android:background="@drawable/button_background"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/btn_login"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/tv_forgot_password"
+            android:textSize="@dimen/btn_textSize"
+            android:textColor="@android:color/white"
+            android:text="@string/btn_lbl_login"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingBottom="@dimen/btn_padding"
+            android:paddingTop="@dimen/btn_padding"
+            android:gravity="center"/>
+
+
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_login"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <com.example.tigersmotorcycles.utils.MSPTextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_don_t_have_an_account"
+            android:textSize="@dimen/lbl_text_view_textSize"
+            android:textColor="@color/colorSecondaryText"
+            android:text="@string/don_t_have_an_account"
+            android:layout_marginTop="16dp"
+            android:padding="@dimen/clickable_text_view_padding"/>
+
+        <com.example.tigersmotorcycles.utils.MSPTextViewBold
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_register"
+            android:textSize="@dimen/lbl_text_view_textSize"
+            android:textColor="@color/colorSecondaryText"
+            android:text="@string/register"
+            android:layout_marginTop="16dp"
+            android:padding="@dimen/clickable_text_view_padding"
+            android:foreground="?attr/selectableItemBackground"/>
+
+    </LinearLayout>
+
+
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/white"
+            android:elevation="35dp"
+            android:src="@drawable/facebook"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fab_google"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+             />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:elevation="35dp"
+            android:src="@drawable/google"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+             />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:elevation="35dp"
+            android:src="@drawable/twitter"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/fab_google"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager"
+            app:layout_constraintVertical_bias="0.486" />
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
