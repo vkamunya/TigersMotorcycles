@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tigersmotorcycles.R
-import com.example.tigersmotorcycles.models.Product
-import com.example.tigersmotorcycles.ui.activities.ProductDetailsActivity
-import com.example.tigersmotorcycles.ui.fragments.ProductsFragment
+import com.example.tigersmotorcycles.models.SoldProducts
+import com.example.tigersmotorcycles.ui.activities.SoldProductDetailsActivity
 import com.example.tigersmotorcycles.utils.Constants
 import com.example.tigersmotorcycles.utils.GlideLoader
 import kotlinx.android.synthetic.main.item_list_layout.view.*
+
 /**
- * A adapter class for products list items.
+ * A adapter class for sold products list items.
  */
-open class MyProductsListAdapter(
-        private val context: Context,
-        private var list: ArrayList<Product>,
-        private val fragment: ProductsFragment
+open class SoldProductsListAdapter(
+    private val context: Context,
+    private var list: ArrayList<SoldProducts>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
     /**
      * Inflates the item views which is designed in xml layout file
@@ -30,11 +30,11 @@ open class MyProductsListAdapter(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
-                LayoutInflater.from(context).inflate(
-                        R.layout.item_list_layout,
-                        parent,
-                        false
-                )
+            LayoutInflater.from(context).inflate(
+                R.layout.item_list_layout,
+                parent,
+                false
+            )
         )
     }
 
@@ -53,24 +53,21 @@ open class MyProductsListAdapter(
 
         if (holder is MyViewHolder) {
 
-            GlideLoader(context).loadProductPicture(model.image, holder.itemView.iv_item_image)
+            GlideLoader(context).loadProductPicture(
+                model.image,
+                holder.itemView.iv_item_image
+            )
 
             holder.itemView.tv_item_name.text = model.title
-            holder.itemView.tv_item_price.text = "Ksh{model.price}"
+            holder.itemView.tv_item_price.text = "$${model.price}"
 
-            holder.itemView.ib_delete_product.setOnClickListener {
-
-                fragment.deleteProduct(model.product_id)
-            }
+            holder.itemView.ib_delete_product.visibility = View.GONE
 
             holder.itemView.setOnClickListener {
-                // Launch Product details screen.
-                val intent = Intent(context, ProductDetailsActivity::class.java)
-                intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
-                intent.putExtra(Constants.EXTRA_PRODUCT_OWNER_ID, model.user_id)
+                val intent = Intent(context, SoldProductDetailsActivity::class.java)
+                intent.putExtra(Constants.EXTRA_SOLD_PRODUCT_DETAILS, model)
                 context.startActivity(intent)
             }
-
         }
     }
 

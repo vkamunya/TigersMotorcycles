@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tigersmotorcycles.R
 import com.example.tigersmotorcycles.firestore.FirestoreClass
 import com.example.tigersmotorcycles.models.Product
+import com.example.tigersmotorcycles.ui.activities.CartListActivity
 import com.example.tigersmotorcycles.ui.activities.ProductDetailsActivity
 import com.example.tigersmotorcycles.ui.activities.SettingsActivity
 import com.example.tigersmotorcycles.ui.adapters.DashboardItemsListAdapter
@@ -43,6 +44,10 @@ class DashboardFragment : BaseFragment() {
 
             R.id.action_settings -> {
                 startActivity(Intent(activity, SettingsActivity::class.java))
+                return true
+            }
+            R.id.action_cart -> {
+                startActivity(Intent(activity, CartListActivity::class.java))
                 return true
             }
         }
@@ -83,16 +88,19 @@ class DashboardFragment : BaseFragment() {
 
             val adapter = DashboardItemsListAdapter(requireActivity(), dashboardItemsList)
             rv_dashboard_items.adapter = adapter
-
+            /*
             adapter.setOnClickListener(object :
                 DashboardItemsListAdapter.OnClickListener {
                 override fun onClick(position: Int, product: Product) {
                     //Launch the product details screen from the dashboard.
                     val intent = Intent(context, ProductDetailsActivity::class.java)
                     intent.putExtra(Constants.EXTRA_PRODUCT_ID, product.product_id)
+                     intent.putExtra(Constants.EXTRA_PRODUCT_OWNER_ID, model.product_id)
                     startActivity(intent)
                 }
             })
+
+             */
 
 
         } else {

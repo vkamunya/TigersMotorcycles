@@ -18,8 +18,30 @@ object Constants {
     const val TIGERMOTORCYCLES_PREFERENCES: String = "TigerMotorcyclePrefs"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
 
+    // a constant for Sold Products collections.
+    const val SOLD_PRODUCTS: String = "sold_products"
+    //A constant field for passing the sold product details to detail screen through intent.
+    const val EXTRA_SOLD_PRODUCT_DETAILS: String = "extra_sold_product_details"
+
+    //A constant for Orders collection.
+    const val ORDERS: String = "orders"
+    //  A constant for Stock Quantity.
+    const val STOCK_QUANTITY: String = "stock_quantity"
+    //a constant for passing the order details through intent.
+    const val EXTRA_MY_ORDER_DETAILS: String = "extra_MY_ORDER_DETAILS"
+
     // Intent extra constants.
     const val EXTRA_USER_DETAILS: String = "extra_user_details"
+
+    //the constant variable to pass the address details to the checkout screen through intent.
+
+    const val EXTRA_SELECTED_ADDRESS: String = "extra_selected_address"
+
+    //a global constant variable to notify the add address.
+    const val ADD_ADDRESS_REQUEST_CODE: Int = 121
+
+    //a constant to pass the value through intent in the address listing screen which will help to select the address to proceed with checkout.
+    const val EXTRA_SELECT_ADDRESS: String = "extra_select_address"
 
     // a constant variable for passing the product id to product details screen through intent.
     const val EXTRA_PRODUCT_ID: String = "extra_product_id"
@@ -27,12 +49,26 @@ object Constants {
     //A unique code for asking the Read Storage Permission using this we will be check and identify in the method onRequestPermissionsResult in the Base Activity.
     const val READ_STORAGE_PERMISSION_CODE = 2
 
+    // a constant variable for CART ITEMS collection.
+    const val CART_ITEMS: String = "cart_items"
+
+    //a constant variable for product owner id.
+    const val EXTRA_PRODUCT_OWNER_ID: String = "extra_product_owner_id"
+
     // A unique code of image selection from Phone Storage.
     const val PICK_IMAGE_REQUEST_CODE = 2
+
+   // a constant field for product id.
+    const val PRODUCT_ID: String = "product_id"
 
     // Constant variables for Gender
     const val MALE: String = "Male"
     const val FEMALE: String = "Female"
+
+    // the constant variable for default cart quantity.
+
+    const val DEFAULT_CART_QUANTITY: String = "1"
+    const val CART_QUANTITY: String = "cart_quantity"
 
     // Firebase database field names
     const val MOBILE: String = "mobile"
@@ -42,6 +78,13 @@ object Constants {
 
     const val FIRST_NAME: String = "firstName"
     const val LAST_NAME: String = "lastName"
+
+    const val HOME: String = "Home"
+    const val OFFICE: String = "Office"
+    const val OTHER: String = "Other"
+    const val ADDRESSES: String = "addresses"
+
+    const val EXTRA_ADDRESS_DETAILS: String = "AddressDetails"
 
     const val USER_ID: String = "user_id"
 

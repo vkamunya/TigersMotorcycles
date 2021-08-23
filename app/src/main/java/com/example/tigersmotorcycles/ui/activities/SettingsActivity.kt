@@ -10,7 +10,9 @@ import com.example.tigersmotorcycles.utils.Constants
 import com.example.tigersmotorcycles.utils.GlideLoader
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_settings.*
-
+/**
+ * Setting screen of the app.
+ */
 class SettingsActivity : BaseActivity(), View.OnClickListener {
     private lateinit var mUserDetails: User
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +22,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         setupActionBar()
         btn_logout.setOnClickListener(this@SettingsActivity)
         tv_edit.setOnClickListener(this@SettingsActivity)
+        ll_address.setOnClickListener(this@SettingsActivity)
     }
     override fun onResume() {
         super.onResume()
@@ -33,6 +36,10 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 R.id.tv_edit -> {
                     val intent = Intent(this@SettingsActivity, UserProfileActivity::class.java)
                     intent.putExtra(Constants.EXTRA_USER_DETAILS, mUserDetails)
+                    startActivity(intent)
+                }
+                R.id.ll_address -> {
+                    val intent = Intent(this@SettingsActivity, AddressListActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.btn_logout -> {
