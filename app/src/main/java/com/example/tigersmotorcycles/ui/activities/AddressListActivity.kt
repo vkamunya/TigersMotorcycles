@@ -19,26 +19,38 @@ import com.example.tigersmotorcycles.utils.SwipeToDeleteCallBack
 import com.example.tigersmotorcycles.utils.SwipeToEditCallBack
 import kotlinx.android.synthetic.main.activity_address_list.*
 
+/**
+ * Address list screen.
+ */
 class AddressListActivity : BaseActivity() {
-    //a global variable to select the address.
+
     private var mSelectAddress: Boolean = false
+
+    /**
+     * This function is auto created by Android when the Activity Class is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
+        //This call the parent constructor
         super.onCreate(savedInstanceState)
+        // This is used to align the xml view to this class
         setContentView(R.layout.activity_address_list)
 
         if (intent.hasExtra(Constants.EXTRA_SELECT_ADDRESS)) {
             mSelectAddress =
                     intent.getBooleanExtra(Constants.EXTRA_SELECT_ADDRESS, false)
         }
+
+        setupActionBar()
+
         if (mSelectAddress) {
             tv_title.text = resources.getString(R.string.title_select_address)
         }
-        setupActionBar()
+
         tv_add_address.setOnClickListener {
             val intent = Intent(this@AddressListActivity, AddEditAddressActivity::class.java)
-           // startActivity(intent)
             startActivityForResult(intent, Constants.ADD_ADDRESS_REQUEST_CODE)
         }
+
         getAddressList()
     }
 
@@ -68,6 +80,7 @@ class AddressListActivity : BaseActivity() {
             Log.e("Request Cancelled", "To add the address.")
         }
     }
+
     /**
      * A function for actionBar Setup.
      */
@@ -83,6 +96,7 @@ class AddressListActivity : BaseActivity() {
 
         toolbar_address_list_activity.setNavigationOnClickListener { onBackPressed() }
     }
+
     /**
      * A function to get the list of address from cloud firestore.
      */
@@ -93,6 +107,8 @@ class AddressListActivity : BaseActivity() {
 
         FirestoreClass().getAddressesList(this@AddressListActivity)
     }
+
+
     /**
      * A function to get the success result of address list from cloud firestore.
      *
@@ -102,9 +118,6 @@ class AddressListActivity : BaseActivity() {
 
         // Hide the progress dialog
         hideProgressDialog()
-
-
-        // Print all the list of addresses in the log with name.
 
         if (addressList.size > 0) {
 
@@ -117,60 +130,56 @@ class AddressListActivity : BaseActivity() {
             val addressAdapter = AddressListAdapter(this@AddressListActivity, addressList, mSelectAddress)
             rv_address_list.adapter = addressAdapter
 
-            if (!mSelectAddress){
+            if (!mSelectAddress) {
+                val editSwipeHandler = object : SwipeToEditCallBack(this) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-            val editSwipeHandler = object : SwipeToEditCallBack(this) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-                    val adapter = rv_address_list.adapter as AddressListAdapter
-                    adapter.notifyEditItem(
-                            this@AddressListActivity,
-                            viewHolder.adapterPosition
-                    )
+                        val adapter = rv_address_list.adapter as AddressListAdapter
+                        adapter.notifyEditItem(
+                                this@AddressListActivity,
+                                viewHolder.adapterPosition
+                        )
+                    }
                 }
-            }
-            val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
-            editItemTouchHelper.attachToRecyclerView(rv_address_list)
+                val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
+                editItemTouchHelper.attachToRecyclerView(rv_address_list)
 
-            val deleteSwipeHandler = object : SwipeToDeleteCallBack(this) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                    // Show the progress dialog.
-                    showProgressDialog(resources.getString(R.string.please_wait))
+                val deleteSwipeHandler = object : SwipeToDeleteCallBack(this) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                    FirestoreClass().deleteAddress(
-                            this@AddressListActivity,
-                            addressList[viewHolder.adapterPosition].id
-                    )
+                        // Show the progress dialog.
+                        showProgressDialog(resources.getString(R.string.please_wait))
+
+                        FirestoreClass().deleteAddress(
+                                this@AddressListActivity,
+                                addressList[viewHolder.adapterPosition].id
+                        )
+                    }
                 }
+                val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
+                deleteItemTouchHelper.attachToRecyclerView(rv_address_list)
             }
-            val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
-            deleteItemTouchHelper.attachToRecyclerView(rv_address_list)
-
-
         } else {
             rv_address_list.visibility = View.GONE
             tv_no_address_found.visibility = View.VISIBLE
         }
-
     }
 
-
-}
     /**
      * A function notify the user that the address is deleted successfully.
      */
     fun deleteAddressSuccess() {
+
         // Hide progress dialog.
         hideProgressDialog()
 
         Toast.makeText(
-            this@AddressListActivity,
-            resources.getString(R.string.err_your_address_deleted_successfully),
-            Toast.LENGTH_SHORT
+                this@AddressListActivity,
+                resources.getString(R.string.err_your_address_deleted_successfully),
+                Toast.LENGTH_SHORT
         ).show()
 
         getAddressList()
-
     }
 }

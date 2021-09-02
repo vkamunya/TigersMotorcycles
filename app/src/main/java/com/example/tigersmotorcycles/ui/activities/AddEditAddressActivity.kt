@@ -15,15 +15,25 @@ import kotlinx.android.synthetic.main.activity_add_edit_address.*
  * Add edit address screen.
  */
 class AddEditAddressActivity : BaseActivity() {
+
     private var mAddressDetails: Address? = null
+
+    /**
+     * This function is auto created by Android when the Activity Class is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
+        //This call the parent constructor
         super.onCreate(savedInstanceState)
+        // This is used to align the xml view to this class
         setContentView(R.layout.activity_add_edit_address)
-        setupActionBar()
+
         if (intent.hasExtra(Constants.EXTRA_ADDRESS_DETAILS)) {
             mAddressDetails =
                     intent.getParcelableExtra(Constants.EXTRA_ADDRESS_DETAILS)!!
         }
+
+        setupActionBar()
+
         if (mAddressDetails != null) {
             if (mAddressDetails!!.id.isNotEmpty()) {
 
@@ -51,6 +61,7 @@ class AddEditAddressActivity : BaseActivity() {
                 }
             }
         }
+
         rg_type.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == R.id.rb_other) {
                 til_other_details.visibility = View.VISIBLE
@@ -58,10 +69,12 @@ class AddEditAddressActivity : BaseActivity() {
                 til_other_details.visibility = View.GONE
             }
         }
+
         btn_submit_address.setOnClickListener {
             saveAddressToFirestore()
         }
     }
+
     /**
      * A function for actionBar Setup.
      */
@@ -77,6 +90,11 @@ class AddEditAddressActivity : BaseActivity() {
 
         toolbar_add_edit_address_activity.setNavigationOnClickListener { onBackPressed() }
     }
+
+
+    /**
+     * A function to validate the address input entries.
+     */
     private fun validateData(): Boolean {
         return when {
 
@@ -116,6 +134,7 @@ class AddEditAddressActivity : BaseActivity() {
             }
         }
     }
+
     /**
      * A function to save the address to the cloud firestore.
      */
@@ -146,8 +165,7 @@ class AddEditAddressActivity : BaseActivity() {
                 }
             }
 
-
-            val addressModel = com.example.tigersmotorcycles.models.Address(
+            val addressModel = Address(
                     FirestoreClass().getCurrentUserID(),
                     fullName,
                     phoneNumber,
@@ -157,6 +175,7 @@ class AddEditAddressActivity : BaseActivity() {
                     addressType,
                     otherDetails
             )
+
             if (mAddressDetails != null && mAddressDetails!!.id.isNotEmpty()) {
                 FirestoreClass().updateAddress(
                         this@AddEditAddressActivity,
@@ -166,28 +185,30 @@ class AddEditAddressActivity : BaseActivity() {
             } else {
                 FirestoreClass().addAddress(this@AddEditAddressActivity, addressModel)
             }
-
         }
     }
+
     /**
      * A function to notify the success result of address saved.
      */
     fun addUpdateAddressSuccess() {
+
+        // Hide progress dialog
         hideProgressDialog()
 
-        val notifySuccessMessage: String = if (mAddressDetails != null && mAddressDetails!!.id.isNotEmpty()){
-          resources.getString(R.string.err_your_address_added_successfully)
-        }else {
+        val notifySuccessMessage: String = if (mAddressDetails != null && mAddressDetails!!.id.isNotEmpty()) {
+            resources.getString(R.string.err_your_address_added_successfully)
+        } else {
             resources.getString(R.string.err_your_address_added_successfully)
         }
+
         Toast.makeText(
                 this@AddEditAddressActivity,
-                resources.getString(R.string.err_your_address_added_successfully),
+                notifySuccessMessage,
                 Toast.LENGTH_SHORT
         ).show()
 
         setResult(RESULT_OK)
         finish()
     }
-
 }

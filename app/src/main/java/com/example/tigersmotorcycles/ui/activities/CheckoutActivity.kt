@@ -124,20 +124,22 @@ class CheckoutActivity : BaseActivity() {
 
         for (item in mCartItemsList) {
 
-            val availableQuantity = item.stock_quantity.toInt()
+            val availableQuantity: Int? = item.stock_quantity.toIntOrNull()
 
-            if (availableQuantity > 0) {
-                val price = item.price.toDouble()
-                val quantity = item.cart_quantity.toInt()
+            if (availableQuantity != null) {
+                if (availableQuantity > 0) {
+                    val price = item.price.toDouble()
+                    val quantity = item.cart_quantity.toInt()
 
-                mSubTotal += (price * quantity)
+                    mSubTotal = (price * quantity)
+                }
             }
         }
         tv_checkout_sub_total.text = "Ksh$mSubTotal"
         // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
         tv_checkout_shipping_charge.text = "Ksh1200.0"
 
-        if (mSubTotal > 0) {
+        if (mSubTotal >= 0) {
             ll_checkout_place_order.visibility = View.VISIBLE
 
             mTotalAmount = mSubTotal + 10.0
@@ -155,8 +157,7 @@ class CheckoutActivity : BaseActivity() {
         // Show the progress dialog.
         showProgressDialog(resources.getString(R.string.please_wait))
 
-        // TODO Step 5: Now prepare the order details based on all the required details.
-        // START
+
         mOrderDetails = Order(
             FirestoreClass().getCurrentUserID(),
             mCartItemsList,
@@ -190,7 +191,6 @@ class CheckoutActivity : BaseActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
-        // END
     }
 
 }

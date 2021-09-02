@@ -16,13 +16,10 @@ import com.example.tigersmotorcycles.ui.activities.CheckoutActivity
 import com.example.tigersmotorcycles.utils.Constants
 import kotlinx.android.synthetic.main.item_address_layout.view.*
 
-/**
- * An adapter class for AddressList adapter.
- */
-open class AddressListAdapter (
+open class AddressListAdapter(
         private val context: Context,
         private var list: ArrayList<Address>,
-        private val mselectAddress: Boolean
+        private val selectAddress: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
@@ -62,13 +59,8 @@ open class AddressListAdapter (
             holder.itemView.tv_address_details.text = "${model.address}, ${model.zipCode}"
             holder.itemView.tv_address_mobile_number.text = model.mobileNumber
 
-            if (mselectAddress) {
+            if (selectAddress) {
                 holder.itemView.setOnClickListener {
-                    /*Toast.makeText(
-                        context,
-                        "Selected address : ${model.address}, ${model.zipCode}",
-                        Toast.LENGTH_SHORT
-                    ).show()*/
 
                     val intent = Intent(context, CheckoutActivity::class.java)
                     intent.putExtra(Constants.EXTRA_SELECTED_ADDRESS, model)
@@ -84,6 +76,7 @@ open class AddressListAdapter (
     override fun getItemCount(): Int {
         return list.size
     }
+
     /**
      * A function to edit the address details and pass the existing details through intent.
      *
@@ -92,11 +85,8 @@ open class AddressListAdapter (
      */
     fun notifyEditItem(activity: Activity, position: Int) {
         val intent = Intent(context, AddEditAddressActivity::class.java)
-
         intent.putExtra(Constants.EXTRA_ADDRESS_DETAILS, list[position])
-        //activity.startActivity(intent)
         activity.startActivityForResult(intent, Constants.ADD_ADDRESS_REQUEST_CODE)
-
         notifyItemChanged(position) // Notify any registered observers that the item at position has changed.
     }
 

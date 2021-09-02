@@ -12,15 +12,28 @@ import com.example.tigersmotorcycles.models.Product
 import com.example.tigersmotorcycles.ui.adapters.CartItemListAdapter
 import com.example.tigersmotorcycles.utils.Constants
 import kotlinx.android.synthetic.main.activity_cart_list.*
+import java.lang.Integer.parseInt
 
+/**
+ * Cart list activity of the application.
+ */
 class CartListActivity : BaseActivity() {
-    //a global variable for the product list.
 
+    // A global variable for the product list.
     private lateinit var mProductsList: ArrayList<Product>
+
+    // A global variable for the cart list items.
     private lateinit var mCartListItems: ArrayList<CartItem>
+
+    /**
+     * This function is auto created by Android when the Activity Class is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
+        //This call the parent constructor
         super.onCreate(savedInstanceState)
+        // This is used to align the xml view to this class
         setContentView(R.layout.activity_cart_list)
+
         setupActionBar()
 
         btn_checkout.setOnClickListener {
@@ -29,6 +42,13 @@ class CartListActivity : BaseActivity() {
             startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        getProductList()
+    }
+
     /**
      * A function for actionBar Setup.
      */
@@ -44,33 +64,61 @@ class CartListActivity : BaseActivity() {
 
         toolbar_cart_list_activity.setNavigationOnClickListener { onBackPressed() }
     }
-    //  a function to get the list of cart items in the activity.
 
-    private fun getCartItemsList() {
+    /**
+     * A function to get product list to compare the current stock with the cart items.
+     */
+    private fun getProductList() {
 
         // Show the progress dialog.
-        //showProgressDialog(resources.getString(R.string.please_wait))
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getAllProductsList(this@CartListActivity)
+    }
+
+    /**
+     * A function to get the success result of product list.
+     *
+     * @param productsList
+     */
+    fun successProductsListFromFireStore(productsList: ArrayList<Product>) {
+
+        mProductsList = productsList
+
+        getCartItemsList()
+    }
+
+    /**
+     * A function to get the list of cart items in the activity.
+     */
+    private fun getCartItemsList() {
 
         FirestoreClass().getCartList(this@CartListActivity)
     }
 
     /**
      * A function to notify the success result of the cart items list from cloud firestore.
+     *
+     * @param cartList
      */
     fun successCartItemsList(cartList: ArrayList<CartItem>) {
+
+        // Hide progress dialog.
         hideProgressDialog()
+
         for (product in mProductsList) {
-            for (cartItem in cartList) {
-                if (product.product_id == cartItem.product_id) {
+            for (cart in cartList) {
+                if (product.product_id == cart.product_id) {
 
-                    cartItem.stock_quantity = product.stock_quantity
+                    cart.stock_quantity = product.stock_quantity
 
-                    if (product.stock_quantity.toInt() == 0){
-                        cartItem.cart_quantity = product.stock_quantity
+                    if (product.stock_quantity.toInt() == 0) {
+                        cart.cart_quantity = product.stock_quantity
                     }
                 }
             }
         }
+
         mCartListItems = cartList
 
         if (mCartListItems.size > 0) {
@@ -88,25 +136,27 @@ class CartListActivity : BaseActivity() {
             var subTotal: Double = 0.0
 
             for (item in mCartListItems) {
-                val availableQuantity = item.stock_quantity.toInt()
 
-                if (availableQuantity > 0) {
-                    val price = item.price.toDouble()
-                    val quantity = item.cart_quantity.toInt()
+                val availableQuantity: Int? = item.stock_quantity.toIntOrNull()
 
-                    subTotal += (price * quantity)
+                if (availableQuantity != null) {
+                    if (availableQuantity > 0) {
+                        val price = item.price.toDouble()
+                        val quantity = item.cart_quantity.toInt()
+
+                        subTotal = (price * quantity)
+                    }
                 }
-
-            }
+                }
 
             tv_sub_total.text = "Ksh$subTotal"
             // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-            tv_shipping_charge.text = "Ksh200.0"
+            tv_shipping_charge.text = "Ksh150.0"
 
-            if (subTotal > 0) {
+            if (subTotal >= 0) {
                 ll_checkout.visibility = View.VISIBLE
 
-                val total = subTotal + 10
+                val total = subTotal + 150
                 tv_total_amount.text = "Ksh$total"
             } else {
                 ll_checkout.visibility = View.GONE
@@ -118,32 +168,7 @@ class CartListActivity : BaseActivity() {
             tv_no_cart_item_found.visibility = View.VISIBLE
         }
     }
-    /**
-     * A function to get product list to compare the current stock with the cart items.
-     */
-    private fun getProductList() {
 
-        // Show the progress dialog.
-        showProgressDialog(resources.getString(R.string.please_wait))
-
-        FirestoreClass().getAllProductsList(this@CartListActivity)
-    }
-    /**
-     * A function to get the success result of product list.
-     *
-     * @param productsList
-     */
-    fun successProductsListFromFireStore(productsList: ArrayList<Product>) {
-        mProductsList = productsList
-        getCartItemsList()
-
-    }
-    override fun onResume() {
-        super.onResume()
-
-        //getCartItemsList()
-        getProductList()
-    }
     /**
      * A function to notify the user about the item removed from the cart list.
      */
@@ -159,6 +184,7 @@ class CartListActivity : BaseActivity() {
 
         getCartItemsList()
     }
+
     /**
      * A function to notify the user about the item quantity updated in the cart list.
      */
